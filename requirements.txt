@@ -6,4 +6,5 @@ supabase==2.3.4
 requests==2.31.0
 google-cloud-monitoring==2.19.0
 numpy==1.26.4
-streamlit-option-menu==0.3.12 
+streamlit-option-menu==0.3.12
+plotly-geo==1.0.0 
