@@ -26,33 +26,38 @@ st.markdown("""
 <style>
 /* Variáveis de cores */
 :root {
-    --primary-color: #2563eb;
-    --secondary-color: #3b82f6;
-    --accent-color: #60a5fa;
-    --background-color: #f8fafc;
-    --card-bg: #ffffff;
-    --text-primary: #1e293b;
-    --text-secondary: #64748b;
-    --border-color: #e2e8f0;
-    --hover-bg: #f1f5f9;
-    --metric-bg: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --metric-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --primary-color: #2563eb !important;
+    --secondary-color: #3b82f6 !important;
+    --accent-color: #60a5fa !important;
+    --background-color: #f8fafc !important;
+    --card-bg: #ffffff !important;
+    --text-primary: #1e293b !important;
+    --text-secondary: #64748b !important;
+    --border-color: #e2e8f0 !important;
+    --hover-bg: #f1f5f9 !important;
+    --metric-bg: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+    --metric-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
 }
 
-/* Reset global da sidebar */
-.sidebar {
+/* Reset global */
+div[data-testid="stAppViewContainer"] {
     background-color: var(--background-color) !important;
 }
 
-.sidebar .sidebar-content {
-    background-color: var(--card-bg);
-    padding: 1rem;
-    border-right: 1px solid var(--border-color);
+/* Reset global da sidebar */
+section[data-testid="stSidebar"] {
+    background-color: var(--background-color) !important;
+}
+
+section[data-testid="stSidebar"] > div {
+    background-color: var(--card-bg) !important;
+    padding: 1rem !important;
+    border-right: 1px solid var(--border-color) !important;
 }
 
 /* Reset de todos os elementos da sidebar */
-.sidebar * {
+section[data-testid="stSidebar"] * {
     background-color: transparent !important;
     box-shadow: none !important;
     border: none !important;
@@ -61,11 +66,11 @@ st.markdown("""
 }
 
 /* Título */
-.sidebar h3 {
-    color: var(--primary-color);
-    font-size: 1.5em;
-    font-weight: 600;
-    text-align: center;
+section[data-testid="stSidebar"] h3 {
+    color: var(--primary-color) !important;
+    font-size: 1.5em !important;
+    font-weight: 600 !important;
+    text-align: center !important;
     margin: 1rem 0 !important;
     padding: 0.5rem !important;
     border-bottom: 2px solid var(--primary-color) !important;
@@ -93,115 +98,88 @@ st.markdown("""
 
 .streamlit-option-menu .nav-link:hover {
     background-color: var(--hover-bg) !important;
-    transform: translateX(4px);
+    transform: translateX(4px) !important;
 }
 
 .streamlit-option-menu .nav-link-selected {
     background: var(--metric-bg) !important;
     color: white !important;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow) !important;
 }
 
 /* Métricas */
-.stMetric {
-    background: var(--metric-bg);
-    padding: 1.5rem;
-    border-radius: 16px;
-    color: white;
-    box-shadow: var(--metric-shadow);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+div[data-testid="stMetricValue"] {
+    color: var(--text-primary) !important;
+    font-size: 1.5em !important;
+    font-weight: 700 !important;
+    word-break: break-all !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.5px !important;
+    max-width: 100% !important;
+    text-align: left !important;
+    white-space: normal !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
 }
 
-.stMetric::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
-    z-index: 1;
-}
-
-.stMetric:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-}
-
-.stMetric label, .stMetric div[data-testid="stMetricLabel"] {
+div[data-testid="stMetricLabel"] {
     font-size: 0.85em !important;
-    color: rgba(255,255,255,0.9) !important;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.5em;
-    display: block;
-    text-transform: uppercase;
-}
-
-.stMetric div[data-testid="stMetricValue"] {
-    color: white !important;
-    font-size: 1.5em;
-    font-weight: 700;
-    word-break: break-all;
-    line-height: 1.2;
-    letter-spacing: -0.5px;
-    max-width: 100%;
-    text-align: left;
-    white-space: normal;
-    padding: 0;
-    margin: 0;
-    display: block;
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 0.5em !important;
+    display: block !important;
+    text-transform: uppercase !important;
 }
 
 /* Gráficos */
-.plotly-graph-div {
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    padding: 1.5rem;
-    transition: all 0.3s ease;
+div[data-testid="stPlotlyChart"] {
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    box-shadow: var(--shadow) !important;
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    padding: 1.5rem !important;
+    transition: all 0.3s ease !important;
 }
 
-.plotly-graph-div:hover {
-    box-shadow: var(--metric-shadow);
+div[data-testid="stPlotlyChart"]:hover {
+    box-shadow: var(--metric-shadow) !important;
 }
 
 /* Títulos */
 h1, h2, h3 {
-    color: var(--text-primary);
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    margin-bottom: 1rem;
+    color: var(--text-primary) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.5px !important;
+    margin-bottom: 1rem !important;
 }
 
 h1 {
-    font-size: 2.5em;
-    background: var(--metric-bg);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--border-color);
+    font-size: 2.5em !important;
+    background: var(--metric-bg) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 2px solid var(--border-color) !important;
 }
 
 h2 {
-    font-size: 1.75em;
-    color: var(--text-primary);
-    margin-top: 2rem;
+    font-size: 1.75em !important;
+    color: var(--text-primary) !important;
+    margin-top: 2rem !important;
 }
 
 h3 {
-    font-size: 1.25em;
-    color: var(--text-secondary);
+    font-size: 1.25em !important;
+    color: var(--text-secondary) !important;
 }
 
 /* Inputs e Controles */
-.stTextInput > div > div > input,
-.stSelectbox > div > div > select,
-.stDateInput > div > div > input {
+div[data-testid="stTextInput"] > div > div > input,
+div[data-testid="stSelectbox"] > div > div > select,
+div[data-testid="stDateInput"] > div > div > input {
     border-radius: 8px !important;
     border: 1px solid var(--border-color) !important;
     padding: 0.5rem 1rem !important;
@@ -209,15 +187,15 @@ h3 {
     transition: all 0.3s ease !important;
 }
 
-.stTextInput > div > div > input:focus,
-.stSelectbox > div > div > select:focus,
-.stDateInput > div > div > input:focus {
+div[data-testid="stTextInput"] > div > div > input:focus,
+div[data-testid="stSelectbox"] > div > div > select:focus,
+div[data-testid="stDateInput"] > div > div > input:focus {
     border-color: var(--primary-color) !important;
     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1) !important;
 }
 
 /* Botões */
-.stButton > button {
+div[data-testid="stButton"] > button {
     background: var(--metric-bg) !important;
     color: white !important;
     border-radius: 8px !important;
@@ -228,27 +206,27 @@ h3 {
     box-shadow: var(--shadow) !important;
 }
 
-.stButton > button:hover {
+div[data-testid="stButton"] > button:hover {
     transform: translateY(-2px) !important;
     box-shadow: var(--metric-shadow) !important;
 }
 
 /* Tabelas */
-.dataframe {
+div[data-testid="stDataFrame"] {
     border-radius: 8px !important;
     overflow: hidden !important;
     box-shadow: var(--shadow) !important;
     border: 1px solid var(--border-color) !important;
 }
 
-.dataframe th {
+div[data-testid="stDataFrame"] th {
     background: var(--metric-bg) !important;
     color: white !important;
     font-weight: 600 !important;
     padding: 0.75rem !important;
 }
 
-.dataframe td {
+div[data-testid="stDataFrame"] td {
     padding: 0.75rem !important;
     border-bottom: 1px solid var(--border-color) !important;
 }
@@ -259,23 +237,21 @@ h3 {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.stMetric, .plotly-graph-div, .dataframe {
-    animation: fadeIn 0.5s ease-out;
+div[data-testid="stMetricValue"],
+div[data-testid="stPlotlyChart"],
+div[data-testid="stDataFrame"] {
+    animation: fadeIn 0.5s ease-out !important;
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
-    .stMetric {
-        padding: 1rem !important;
-    }
-    
-    .stMetric div[data-testid="stMetricValue"] {
+    div[data-testid="stMetricValue"] {
         font-size: 1.2em !important;
     }
     
-    h1 { font-size: 2em; }
-    h2 { font-size: 1.5em; }
-    h3 { font-size: 1.1em; }
+    h1 { font-size: 2em !important; }
+    h2 { font-size: 1.5em !important; }
+    h3 { font-size: 1.1em !important; }
 }
 </style>
 """, unsafe_allow_html=True)
