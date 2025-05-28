@@ -1,0 +1,317 @@
+/* Variáveis de cores */
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #3b82f6;
+    --accent-color: #60a5fa;
+    --background-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --hover-bg: #f1f5f9;
+    --metric-bg: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --metric-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* Modo escuro */
+[data-theme="dark"] {
+    --primary-color: #64B5F6;
+    --primary-light: #90CAF9;
+    --primary-dark: #42A5F5;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0B0B0;
+    --background: #1E1E1E;
+    --background-secondary: #2D2D2D;
+    --border-color: #404040;
+    --shadow: 0 2px 4px rgba(0,0,0,0.2);
+    --metric-bg: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    --card-bg: var(--background-secondary);
+    --hover-bg: #2D2D2D;
+}
+
+/* Reset global da sidebar */
+.sidebar {
+    background-color: var(--background-color) !important;
+}
+
+.sidebar .sidebar-content {
+    background-color: var(--card-bg);
+    padding: 1rem;
+    border-right: 1px solid var(--border-color);
+}
+
+/* Reset de todos os elementos da sidebar */
+.sidebar * {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Título */
+.sidebar h3 {
+    color: var(--primary-color);
+    font-size: 1.5em;
+    font-weight: 600;
+    text-align: center;
+    margin: 1rem 0 !important;
+    padding: 0.5rem !important;
+    border-bottom: 2px solid var(--primary-color) !important;
+}
+
+/* Menu */
+.streamlit-option-menu {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.streamlit-option-menu .nav-link {
+    border-radius: 8px !important;
+    margin: 4px 0 !important;
+    padding: 12px 16px !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.streamlit-option-menu .nav-link:hover {
+    background-color: var(--hover-bg) !important;
+    transform: translateX(4px);
+}
+
+.streamlit-option-menu .nav-link-selected {
+    background: var(--metric-bg) !important;
+    color: white !important;
+    box-shadow: var(--shadow);
+}
+
+/* Métricas */
+.stMetric {
+    background: var(--metric-bg);
+    padding: 1.5rem;
+    border-radius: 16px;
+    color: white;
+    box-shadow: var(--metric-shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stMetric::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+    z-index: 1;
+}
+
+.stMetric:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+.stMetric label, .stMetric div[data-testid="stMetricLabel"] {
+    font-size: 0.85em !important;
+    color: rgba(255,255,255,0.9) !important;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5em;
+    display: block;
+    text-transform: uppercase;
+}
+
+.stMetric div[data-testid="stMetricValue"] {
+    color: white !important;
+    font-size: 1.5em;
+    font-weight: 700;
+    word-break: break-all;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    max-width: 100%;
+    text-align: left;
+    white-space: normal;
+    padding: 0;
+    margin: 0;
+    display: block;
+}
+
+/* Gráficos */
+.plotly-graph-div {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.plotly-graph-div:hover {
+    box-shadow: var(--metric-shadow);
+}
+
+/* Títulos */
+h1, h2, h3 {
+    color: var(--text-primary);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.5em;
+    background: var(--metric-bg);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+h2 {
+    font-size: 1.75em;
+    color: var(--text-primary);
+    margin-top: 2rem;
+}
+
+h3 {
+    font-size: 1.25em;
+    color: var(--text-secondary);
+}
+
+/* Inputs e Controles */
+.stTextInput > div > div > input,
+.stSelectbox > div > div > select,
+.stDateInput > div > div > input {
+    border-radius: 8px !important;
+    border: 1px solid var(--border-color) !important;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.9em !important;
+    transition: all 0.3s ease !important;
+}
+
+.stTextInput > div > div > input:focus,
+.stSelectbox > div > div > select:focus,
+.stDateInput > div > div > input:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1) !important;
+}
+
+/* Botões */
+.stButton > button {
+    background: var(--metric-bg) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 1.5rem !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+/* Tabelas */
+.dataframe {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: var(--shadow) !important;
+}
+
+.dataframe th {
+    background: var(--metric-bg) !important;
+    color: white !important;
+    font-weight: 500 !important;
+    padding: 1rem !important;
+}
+
+.dataframe td {
+    padding: 0.75rem 1rem !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.stMetric, .plotly-graph-div, .dataframe {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .stMetric {
+        padding: 1rem;
+    }
+    
+    .stMetric div[data-testid="stMetricValue"] {
+        font-size: 1.2em;
+    }
+    
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.5em; }
+    h3 { font-size: 1.1em; }
+}
+
+/* Rodapé */
+footer {
+    color: var(--text-secondary);
+    font-size: 0.8em;
+    padding: 1rem 0;
+}
+
+/* Divisores */
+hr {
+    margin: 1.5rem 0;
+    border: none;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Labels */
+.stMarkdown p {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    margin-bottom: 0.5rem;
+}
+
+/* Toggle de modo escuro */
+.stToggle {
+    margin: 1rem 0;
+}
+
+.stToggle label {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Estilo para o botão HELP */
+.sidebar .stButton button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-top: 16px;
+}
+
+.sidebar .stButton button:hover {
+    background-color: var(--hover-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+} 
