@@ -2,7 +2,7 @@ streamlit==1.32.0
 pandas==2.2.1
 plotly==5.19.0
 python-dotenv==1.0.1
-supabase==2.3.4
+supabase==1.2.0
 requests==2.31.0
 google-cloud-monitoring==2.19.0
 numpy==1.26.4
