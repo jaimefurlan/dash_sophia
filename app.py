@@ -199,8 +199,6 @@ with col3:
 with col4:
     campanha = st.text_input("Campanha")
 
-st.markdown("---")
-
 def format_compact_number(n):
     if abs(n) >= 1_000_000_000:
         return f"{n/1_000_000_000:.2f}B"
