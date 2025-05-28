@@ -286,14 +286,26 @@ plotly_template = dict(
             family="Inter, system-ui, -apple-system, sans-serif",
             color="#1e293b"
         ),
-        margin=dict(t=30, l=30, r=30, b=30),
+        margin=dict(t=50, l=60, r=30, b=60),
         xaxis=dict(
             showgrid=True,
             gridcolor='rgba(226, 232, 240, 0.5)',
             zeroline=False,
             showline=True,
             linecolor='#e2e8f0',
-            tickfont=dict(size=12)
+            tickfont=dict(size=12),
+            tickangle=0,
+            tickmode='auto',
+            nticks=10,
+            tickformat='%d/%m',
+            ticklabelmode='period',
+            rangeslider=dict(visible=False),
+            showspikes=True,
+            spikemode='across',
+            spikesnap='cursor',
+            spikecolor='#e2e8f0',
+            spikedash='solid',
+            spikethickness=1
         ),
         yaxis=dict(
             showgrid=True,
@@ -301,7 +313,14 @@ plotly_template = dict(
             zeroline=False,
             showline=True,
             linecolor='#e2e8f0',
-            tickfont=dict(size=12)
+            tickfont=dict(size=12),
+            tickmode='auto',
+            nticks=10,
+            showspikes=True,
+            spikesnap='cursor',
+            spikecolor='#e2e8f0',
+            spikedash='solid',
+            spikethickness=1
         ),
         colorway=['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe'],
         hovermode='x unified',
@@ -309,6 +328,17 @@ plotly_template = dict(
             bgcolor='white',
             font_size=12,
             font_family="Inter, system-ui, -apple-system, sans-serif"
+        ),
+        showlegend=True,
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1,
+            bgcolor='rgba(255, 255, 255, 0.8)',
+            bordercolor='#e2e8f0',
+            borderwidth=1
         )
     )
 )
@@ -336,6 +366,16 @@ def create_indicator(value, title, delta=None):
         template=plotly_template,
         height=120,
         margin=dict(t=30, l=30, r=30, b=30)
+    )
+    return fig
+
+# Função auxiliar para criar gráficos de linha
+def create_line_chart(df, x, y, title):
+    fig = px.line(df, x=x, y=y, title=title)
+    fig.update_layout(
+        template=plotly_template,
+        height=400,
+        margin=dict(t=50, l=60, r=30, b=60)
     )
     return fig
 
@@ -496,7 +536,7 @@ elif selected == "IA":
         st.metric("Tokens/sessão", format_compact_number(mock_ia['tokens_sessao'].mean()))
     with col6:
         st.metric("Latência (ms)", f"{mock_ia['latencia'].mean():.0f}")
-    st.plotly_chart(px.line(mock_ia, x="data", y="taxa_acerto", title="Taxa de Acerto (%)"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_ia, "data", "taxa_acerto", "Taxa de Acerto (%)"), use_container_width=True)
 
     # 2. Métricas de Qualidade da Resposta
     st.header("Métricas de Qualidade da Resposta")
@@ -511,7 +551,7 @@ elif selected == "IA":
         st.metric("CSAT", f"{mock_ia['csat'].mean():.2f}")
     with col5:
         st.metric("NPS", int(mock_ia["nps"].mean()))
-    st.plotly_chart(px.line(mock_ia, x="data", y="respostas_corretas", title="Taxa de Respostas Corretas (%)"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_ia, "data", "respostas_corretas", "Taxa de Respostas Corretas (%)"), use_container_width=True)
 
     # 3. Métricas de Engajamento
     st.header("Métricas de Engajamento")
@@ -524,7 +564,7 @@ elif selected == "IA":
         st.metric("Sessões/Dia", format_compact_number(mock_ia['sessoes_dia'].mean()))
     with col4:
         st.metric("Horas Ativas", f"{mock_ia['horas_ativas'].mean():.1f}")
-    st.plotly_chart(px.line(mock_ia, x="data", y="sessoes_dia", title="Total de Sessões por Dia"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_ia, "data", "sessoes_dia", "Total de Sessões por Dia"), use_container_width=True)
 
     # KPIs executivos
     st.header("KPIs Executivos")
@@ -647,7 +687,7 @@ elif selected == "Cobrança":
         st.metric("% recuperação carteira", f"{pct_recup:.1f}%")
     with col6:
         st.metric(label="Valor recup./sessão (R$)", value=format_compact_number(mock_cobranca['valor_recuperado_sessao'].mean()))
-    st.plotly_chart(px.line(mock_cobranca, x="data", y="valor_negociado", title="Valor negociado total (R$)"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_cobranca, "data", "valor_negociado", "Valor negociado total (R$)"), use_container_width=True)
 
     # 2. Métricas de Engajamento e Funil de Conversão
     st.header("Métricas de Engajamento e Funil de Conversão")
@@ -664,7 +704,7 @@ elif selected == "Cobrança":
         st.metric("Abandono fluxo (%)", f"{100*mock_cobranca['abandono_fluxo'].mean():.1f}%")
     with col6:
         st.metric("Tempo até decisão (min)", f"{mock_cobranca['tempo_decisao'].mean():.1f}")
-    st.plotly_chart(px.line(mock_cobranca, x="data", y="abertura_primeiro_contato", title="Taxa de abertura do 1º contato"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_cobranca, "data", "abertura_primeiro_contato", "Taxa de abertura do 1º contato"), use_container_width=True)
 
     # 3. Métricas de Qualidade da IA e Conversação
     st.header("Métricas de Qualidade da IA e Conversação")
@@ -679,7 +719,7 @@ elif selected == "Cobrança":
         st.metric("Taxa erros conversa (%)", f"{100*mock_cobranca['taxa_erros'].mean():.2f}%")
     with col5:
         st.metric("Comp. média sessão", f"{mock_cobranca['comprimento_sessao'].mean():.1f}")
-    st.plotly_chart(px.line(mock_cobranca, x="data", y="acerto_proposta", title="Taxa de acerto na proposta"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_cobranca, "data", "acerto_proposta", "Taxa de acerto na proposta"), use_container_width=True)
 
     # 4. Métricas Operacionais e de Custo
     st.header("Métricas Operacionais e de Custo")
@@ -690,7 +730,7 @@ elif selected == "Cobrança":
         st.metric(label="CAC (R$)", value=format_compact_number(mock_cobranca['custo_acordo'].mean()))
     with col3:
         st.metric(label="Call center (R$/acordo)", value=format_compact_number(mock_cobranca['custo_callcenter'].mean()))
-    st.plotly_chart(px.line(mock_cobranca, x="data", y="custo_sessao", title="Custo por sessão (R$)"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_cobranca, "data", "custo_sessao", "Custo por sessão (R$)"), use_container_width=True)
 
     # 5. Métricas de Recorrência e Pós-Venda
     st.header("Métricas de Recorrência e Pós-Venda")
@@ -701,7 +741,7 @@ elif selected == "Cobrança":
         st.metric("Reengajamento pós-lembrete", int(mock_cobranca["reengajamento"].sum()))
     with col3:
         st.metric("Renegociações IA", int(mock_cobranca["renegociacoes"].sum()))
-    st.plotly_chart(px.line(mock_cobranca, x="data", y="renegociacoes", title="Renegociações por dia"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_cobranca, "data", "renegociacoes", "Renegociações por dia"), use_container_width=True)
 
     # KPIs executivos
     st.header("KPIs Executivos")
@@ -778,7 +818,7 @@ elif selected == "Vendas":
         st.metric(label="CAC (R$)", value=format_compact_number(mock_vendas['cac'].mean()))
     with col7:
         st.metric("Tempo médio fechamento (min)", f"{mock_vendas['tempo_fechamento'].mean():.1f}")
-    st.plotly_chart(px.line(mock_vendas, x="data", y="valor_total_vendas", title="Valor total em vendas (R$)"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_vendas, "data", "valor_total_vendas", "Valor total em vendas (R$)"), use_container_width=True)
 
     # 2. Métricas de Funil de Vendas
     st.header("Métricas de Funil de Vendas (pipeline)")
@@ -795,7 +835,7 @@ elif selected == "Vendas":
         st.metric("Leads 2ª sessão (%)", f"{100*mock_vendas['leads_retorno'].mean():.1f}%")
     with col6:
         st.metric("Leads totais", int(mock_vendas["leads_totais"].sum()))
-    st.plotly_chart(px.line(mock_vendas, x="data", y="qualif_leads", title="Taxa de qualificação de leads (%)"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_vendas, "data", "qualif_leads", "Taxa de qualificação de leads (%)"), use_container_width=True)
 
     # 3. Métricas de Performance do Chatbot
     st.header("Métricas de Performance do Chatbot")
@@ -810,7 +850,7 @@ elif selected == "Vendas":
         st.metric("Fallback (%)", f"{100*mock_vendas['fallback'].mean():.1f}%")
     with col5:
         st.metric("Empatia/naturalidade", f"{mock_vendas['score_empatia'].mean():.2f}")
-    st.plotly_chart(px.line(mock_vendas, x="data", y="latencia_resposta", title="Latência média de resposta (ms)"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_vendas, "data", "latencia_resposta", "Latência média de resposta (ms)"), use_container_width=True)
 
     # 4. Métricas de Qualidade e Satisfação do Cliente
     st.header("Métricas de Qualidade e Satisfação do Cliente")
@@ -823,7 +863,7 @@ elif selected == "Vendas":
         st.metric("Elogios (%)", f"{100*mock_vendas['elogios'].mean():.2f}%")
     with col4:
         st.metric("Tempo médio sessão", f"{mock_vendas['tempo_sessao'].mean():.1f}")
-    st.plotly_chart(px.line(mock_vendas, x="data", y="csat", title="CSAT (Customer Satisfaction Score)"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_vendas, "data", "csat", "CSAT (Customer Satisfaction Score)"), use_container_width=True)
 
     # 5. Métricas de Retenção e Recorrência
     st.header("Métricas de Retenção e Recorrência")
@@ -834,7 +874,7 @@ elif selected == "Vendas":
         st.metric("Up-sell/cross-sell (%)", f"{100*mock_vendas['upsell_cross'].mean():.1f}%")
     with col3:
         st.metric("Recompra no mês (%)", f"{100*mock_vendas['recompra_mes'].mean():.1f}%")
-    st.plotly_chart(px.line(mock_vendas, x="data", y="retorno_nova_compra", title="Taxa de retorno para nova compra (%)"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_vendas, "data", "retorno_nova_compra", "Taxa de retorno para nova compra (%)"), use_container_width=True)
 
     # KPIs executivos
     st.header("KPIs Executivos")
@@ -903,7 +943,7 @@ elif selected == "SAC":
         st.metric("Reabertura chamado (%)", f"{100*mock_sac['reabertura'].mean():.1f}%")
     with col5:
         st.metric("Chamados resolvidos/dia", format_compact_number(mock_sac['chamados_resolvidos'].mean()))
-    st.plotly_chart(px.line(mock_sac, x="data", y="resolucao_primeira", title="Taxa de resolução na primeira interação (%)"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_sac, "data", "resolucao_primeira", "Taxa de resolução na primeira interação (%)"), use_container_width=True)
 
     # 2. Métricas de Qualidade da Resposta
     st.header("Métricas de Qualidade da Resposta")
@@ -916,7 +956,7 @@ elif selected == "SAC":
         st.metric("Loops (%)", f"{100*mock_sac['loops'].mean():.2f}%")
     with col4:
         st.metric("Score clareza (1-5)", f"{mock_sac['score_clareza'].mean():.2f}")
-    st.plotly_chart(px.line(mock_sac, x="data", y="score_relevancia", title="Score de relevância da resposta"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_sac, "data", "score_relevancia", "Score de relevância da resposta"), use_container_width=True)
 
     # 3. Métricas Técnicas e Operacionais
     st.header("Métricas Técnicas e Operacionais")
@@ -929,7 +969,7 @@ elif selected == "SAC":
         st.metric("Tempo médio atendimento (min)", f"{mock_sac['tempo_atendimento'].mean():.1f}")
     with col4:
         st.metric("Tokens/sessão", format_compact_number(mock_sac['tokens_sessao'].mean()))
-    st.plotly_chart(px.line(mock_sac, x="data", y="latencia", title="Latência média (ms)"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_sac, "data", "latencia", "Latência média (ms)"), use_container_width=True)
 
     # 4. Métricas de Satisfação do Cliente (CX)
     st.header("Métricas de Satisfação do Cliente (CX)")
@@ -942,7 +982,7 @@ elif selected == "SAC":
         st.metric("Feedback positivo (%)", f"{100*mock_sac['feedback_positivo'].mean():.1f}%")
     with col4:
         st.metric("Reclamações pós (%)", f"{100*mock_sac['reclamacoes'].mean():.2f}%")
-    st.plotly_chart(px.line(mock_sac, x="data", y="csat", title="CSAT (Customer Satisfaction Score)"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_sac, "data", "csat", "CSAT (Customer Satisfaction Score)"), use_container_width=True)
 
     # 5. Métricas de Volume e Capacidade
     st.header("Métricas de Volume e Capacidade")
@@ -955,7 +995,7 @@ elif selected == "SAC":
         st.metric("Simultâneas máx.", format_compact_number(mock_sac['sessoes_simultaneas'].max()))
     with col4:
         st.metric("Sessões WhatsApp/Web", f"{format_compact_number(mock_sac['sessoes_whatsapp'].mean())} / {format_compact_number(mock_sac['sessoes_web'].mean())}")
-    st.plotly_chart(px.line(mock_sac, x="data", y="sessoes_dia", title="Total de sessões por dia"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_sac, "data", "sessoes_dia", "Total de sessões por dia"), use_container_width=True)
 
     # KPIs executivos
     st.header("KPIs Executivos")
@@ -1023,7 +1063,7 @@ elif selected == "WhatsApp":
         st.metric("ROI", f"{roi:.1f}%")
 
     # Gráfico de mensagens enviadas
-    st.plotly_chart(px.line(mock_wpp, x="data", y="enviadas", title="Mensagens enviadas por dia"), use_container_width=True)
+    st.plotly_chart(create_line_chart(mock_wpp, "data", "enviadas", "Mensagens enviadas por dia"), use_container_width=True)
 
     # 2. Indicadores por Template e Campanha
     st.header("Indicadores por Template e Campanha")
