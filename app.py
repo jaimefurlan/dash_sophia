@@ -35,10 +35,6 @@ def init_supabase():
         supabase_url = st.secrets["supabase"]["url"]
         supabase_key = st.secrets["supabase"]["key"]
         
-        # Debug logs
-        st.write("Debug - URL:", supabase_url)
-        st.write("Debug - Key:", supabase_key[:10] + "..." if supabase_key else "None")
-        
         if not supabase_url or not supabase_key:
             st.error("Credenciais do Supabase não encontradas. Verifique as configurações no Streamlit Cloud.")
             return None
