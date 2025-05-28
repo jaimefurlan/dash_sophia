@@ -42,9 +42,13 @@ Thumbs.db
 *.json
 *.pem
 *.key
+global_ia.json
 
 # Logs
 *.log
 
 # Arquivos de configuração local
-.streamlit/secrets.toml 
+.streamlit/secrets.toml
+
+# Dados mockados
+mock_data.csv 
